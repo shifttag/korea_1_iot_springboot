@@ -9,5 +9,7 @@ public class ApiMappingPattern {
     public static final String USER = "/api/users";
     public static final String POST = "/api/posts";
     public static final String BOOK = "/api/books";
+
+    public static final String MENU = "/api/v1/menus";
 //    public static final String GROUP = "/api/group";
 }
