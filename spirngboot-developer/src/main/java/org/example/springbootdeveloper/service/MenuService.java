@@ -19,12 +19,13 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
-    public ResponseDto<MenuResponseDto> createMenu(MenuRequestDto dto) {
+    public ResponseDto<MenuResponseDto> createMenu(MenuRequestDto dto, String userEmail) {
         MenuResponseDto data = null;
 
         try {
             Menu menu = Menu.builder()
                     .name(dto.getName())
+                    .userEmail(userEmail)
                     .description(dto.getDescription())
                     .price(dto.getPrice())
                     .isAvailable(dto.isAvailable())
@@ -74,6 +75,8 @@ public class MenuService {
           // : Optional 안에 값이 존재하는지 확인
           if(menuOptional.isPresent()) {
               data = new MenuResponseDto(menuOptional.get());
+
+
           } else {
               return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_MENU);
           }
@@ -84,14 +87,40 @@ public class MenuService {
         return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
     }
 
-    public ResponseDto<MenuResponseDto> updateMenu(Long id,  MenuRequestDto dto) {
+    public ResponseDto<List<MenuResponseDto>> getMenuByCategory(String category) {
+        String menuCategory = category;
+        List<MenuResponseDto> data = null;
+
+        try {
+            Optional<List<Menu>> OptionalMenus = menuRepository.findByCategory(menuCategory);
+
+            if(OptionalMenus.isPresent()) {
+                List<Menu> menus = OptionalMenus.get();
+                data = menus.stream()
+                        .map(menu -> new MenuResponseDto(menu))
+                        .collect(Collectors.toList());
+            } else {
+
+                return ResponseDto.setFailed(ResponseMessage.NOT_EXIST_DATA);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.setFailed(ResponseMessage.DATABASE_ERROR);
+        }
+        return ResponseDto.setSuccess(ResponseMessage.SUCCESS, data);
+    }
+
+    public ResponseDto<MenuResponseDto> updateMenu(Long id, String userEmail, MenuRequestDto dto) {
         MenuResponseDto data = null;
         Long menuId = id;
+        String email = userEmail;
         try {
             Optional<Menu> menuOptional = menuRepository.findById(menuId);
 
             if(menuOptional.isPresent()) {
                 Menu menu = Menu.builder()
+                        .userEmail(email)
                         .name(dto.getName())
                         .description(dto.getDescription())
                         .price(dto.getPrice())
@@ -127,4 +156,6 @@ public class MenuService {
         }
 
     }
+
+
 }
