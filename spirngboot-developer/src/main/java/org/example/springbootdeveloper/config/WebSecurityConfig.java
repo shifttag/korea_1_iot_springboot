@@ -119,9 +119,9 @@ public class WebSecurityConfig {
                                 // 특정 경로에 대한 엑세스 설정
                                 // .requestMatchers()
                                 //  : 특정 요청과 일치하는 url에 대한 엑세스
-                                new AntPathRequestMatcher("/api/auth/**"),
-                                new AntPathRequestMatcher("/api/users/**"),
-                                new AntPathRequestMatcher("/user")
+                                new AntPathRequestMatcher("/api/v1/auth/**"),
+                                new AntPathRequestMatcher("/api/v1/menus/**"),
+                                new AntPathRequestMatcher("/api/v1/books/**")
                         )
                         // .permitAll()
                         //  : 누구나 접근이 가능하게 설정
@@ -154,7 +154,7 @@ public class WebSecurityConfig {
         // : DB에서 사용자 인증을 처리
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-        // 비밀번호 검증을 위한 bCryptpasswordEncoder 사용
+        // 비밀번호 검증을 위한 bCryptPasswordEncoder 사용
         authProvider.setPasswordEncoder(bCryptpasswordEncoder);
 
         // ProviderManager: DaoAuthenticationProvider 인증 처리

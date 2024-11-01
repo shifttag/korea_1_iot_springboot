@@ -12,4 +12,7 @@ public class UserSignUpRequestDto {
     private String email;
     @NotNull
     private String password;
+    @NotNull
+    private String confirmPassword;
+
 }
