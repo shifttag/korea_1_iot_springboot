@@ -22,13 +22,11 @@ public class StudentController {
 
     // 비즈니스 로직을 처리하는 Service 객체를 주입받아 사용
     private final StudentService studentService;
-    private final BookService bookService;
 
     // 생성자 주입 (DI)
     // : 외부에서 StudentService 객체를 주입받아 초기화
     public StudentController(StudentService studentService, BookService bookService) {
         this.studentService = studentService;
-        this.bookService = bookService;
     }
 
     // 1) 학생 목록 조회 (GET) - 모든 학생 목록 반환
