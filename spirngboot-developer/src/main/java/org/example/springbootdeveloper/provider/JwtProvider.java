@@ -6,17 +6,21 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.example.springbootdeveloper.entity.User;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
 /**
  * JwtProvider 클래스
- * : JWT 토큰을 생성하고 검증하는 역할
+ * : JWT(JSON Web Token) 토큰을 생성하고 검증하는 역할
+ *
+ * cf) JWT
+ *      : 사용자 정보를 암호화된 토큰으로 저장, 서버에 매번 요청할 때 전달 가능
+ *      : 주로 로그인 인증에 사용
+ *
  * - HS256 암호화 알고리즘을 사용하여 JWT 서명
  * - 비밀키는 Base64로 인코딩 지정 - 환경변수(jwt.secret)
  * - JWT 만료 기간은 10시간 지정 - 환경변수(jwt.expiration)
@@ -31,7 +35,7 @@ public class JwtProvider {
 
     // 환경 변수에 지정한 비밀키 값과 만료 시간을 가져옴
 
-    private final Key key; // JWT 서명에 사용할 암호화 키
+    private final Key key; // JWT 서명에 사용할 암호화 키를 저장할 변수
 
     @Value("${jwt.expiration}")
     private int jwtExpirationMs; // JWT 토큰의 만료 시간을 저장
